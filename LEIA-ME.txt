@@ -1,0 +1,9 @@
+ZERO CHOICE BRASIL 2026 · V17 · 16:9
+1. Extrai a pasta inteira e abre index.html em Chrome/Edge.
+2. Carrega F11 para ecrã completo.
+3. Para testes locais, acrescenta ?admin ao endereço da página no navegador.
+4. No painel de teste, usa +A e +B. Não existem votos automáticos ou ligação ao TikTok.
+5. O áudio requer clicar em Ativar som (restrição do navegador).
+6. A consulta do TSE abre o site oficial, com Internet. NÃO existe sincronização automática dos dados.
+7. A referência de 17h é fixa em 25/10/2026, fuso America/Sao_Paulo.
+8. As duas fotografias estão incluídas na pasta.
