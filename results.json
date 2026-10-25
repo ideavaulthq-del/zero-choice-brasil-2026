@@ -1,10 +1,15 @@
 {
-  "status": "pending",
+  "status": "verified",
   "electionId": "6258",
   "office": "president",
   "scope": "br",
-  "votesA": 0,
-  "votesB": 0,
-  "source": "",
-  "updatedAt": ""
+  "votesA": 33435475,
+  "votesB": 33078744,
+  "sectionsCounted": 269215,
+  "sectionsTotal": 499248,
+  "sectionsPercent": 53.92,
+  "source": "TSE · resultados.tse.jus.br",
+  "sourceUrl": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/br/br-c0001-e006258-u.json",
+  "updatedAt": "2026-10-25T20:30:04-03:00",
+  "sourceGenerationId": "4083675"
 }
