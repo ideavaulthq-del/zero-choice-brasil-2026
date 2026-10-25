@@ -1,5 +1,8 @@
 {
   "status": "pending",
+  "electionId": "6258",
+  "office": "president",
+  "scope": "br",
   "votesA": 0,
   "votesB": 0,
   "source": "",

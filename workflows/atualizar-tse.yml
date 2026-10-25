@@ -1,0 +1,32 @@
+name: Atualizar resultados oficiais TSE
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: tse-results-update
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Consultar e validar TSE
+        run: python scripts/atualizar_tse.py
+      - name: Publicar apenas se existirem alterações
+        run: |
+          if ! git diff --quiet -- results.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add results.json
+            git commit -m 'Atualizar resultados TSE verificados'
+            git push
+          else
+            echo 'Sem alterações oficiais.'
+          fi

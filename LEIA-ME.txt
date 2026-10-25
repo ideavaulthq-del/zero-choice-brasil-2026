@@ -1,9 +1,19 @@
-ZERO CHOICE BRASIL 2026 V20.0
+ZERO CHOICE BRASIL 2026 · V22.0
 
-PUBLICAR NO GITHUB PAGES: index.html, lula.jpg, flavio.png, results.json.
-NÃO PUBLICAR: CENTRAL_PRIVADA_PC.html (usar localmente no PC).
+SITE PÚBLICO (GitHub Pages): index.html, lula.jpg, flavio.png, results.json
+AUTOMAÇÃO: scripts/atualizar_tse.py e .github/workflows/atualizar-tse.yml
 
-Para atualizar: abrir CENTRAL_PRIVADA_PC.html no PC, introduzir dados verificados, gerar results.json e substituir o results.json no GitHub. A página pública consulta a cada 20 segundos; o GitHub Pages pode demorar a publicar.
+COMO INSTALAR
+1. No repositório GitHub, publica os ficheiros e pastas do ZIP preservando os caminhos.
+2. Em Settings > Actions > General, permite que GitHub Actions escreva no repositório (Read and write permissions), se necessário.
+3. Em Actions, executa manualmente "Atualizar resultados oficiais TSE" para testar.
+4. O agendamento GitHub Actions solicita atualização aproximadamente de 5 em 5 minutos. Pode sofrer atrasos; não é um serviço de baixa latência garantida.
+5. O site verifica results.json a cada 30 segundos; o GitHub Pages pode demorar a publicar.
+6. Se houver erro de rede, esquema ou inconsistência, o script falha sem publicar novos dados.
+7. NÃO publiques CENTRAL_MANUAL_RESERVA_PC.html. Está apenas para contingência e gera ficheiros manuais que não devem ser misturados com o fluxo automático.
 
-NÃO HÁ sincronização privada instantânea nem autenticação. Esta versão usa publicação manual por GitHub. Não publicar valores fictícios.
-Fonte oficial para consulta privada: https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/resultados
+FONTE: https://resultados.tse.jus.br/oficial/ele2026/6258/dados/br/br-c0001-e006258-u.json
+DOCUMENTAÇÃO: https://www.tse.jus.br/eleicoes/informacoes-tecnicas-sobre-a-divulgacao-de-resultados
+
+IMPORTANTE: A sincronização depende de permissões Actions, da disponibilidade do TSE e da publicação GitHub Pages.
+Os retratos são fornecidos pelo utilizador; o retrato B é ilustrativo.
