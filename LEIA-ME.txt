@@ -1,9 +1,9 @@
-ZERO CHOICE BRASIL 2026 · V17 · 16:9
-1. Extrai a pasta inteira e abre index.html em Chrome/Edge.
-2. Carrega F11 para ecrã completo.
-3. Para testes locais, acrescenta ?admin ao endereço da página no navegador.
-4. No painel de teste, usa +A e +B. Não existem votos automáticos ou ligação ao TikTok.
-5. O áudio requer clicar em Ativar som (restrição do navegador).
-6. A consulta do TSE abre o site oficial, com Internet. NÃO existe sincronização automática dos dados.
-7. A referência de 17h é fixa em 25/10/2026, fuso America/Sao_Paulo.
-8. As duas fotografias estão incluídas na pasta.
+ZERO CHOICE BRASIL 2026 V20.0
+
+PUBLICAR NO GITHUB PAGES: index.html, lula.jpg, flavio.png, results.json.
+NÃO PUBLICAR: CENTRAL_PRIVADA_PC.html (usar localmente no PC).
+
+Para atualizar: abrir CENTRAL_PRIVADA_PC.html no PC, introduzir dados verificados, gerar results.json e substituir o results.json no GitHub. A página pública consulta a cada 20 segundos; o GitHub Pages pode demorar a publicar.
+
+NÃO HÁ sincronização privada instantânea nem autenticação. Esta versão usa publicação manual por GitHub. Não publicar valores fictícios.
+Fonte oficial para consulta privada: https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/resultados
