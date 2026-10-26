@@ -47,6 +47,15 @@
       to { transform: rotate(360deg); }
     }
 
+    /* Sound Visualizer Animation */
+    .bar-anim {
+      animation: barPulse 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes barPulse {
+      0% { height: 15%; }
+      100% { height: 100%; }
+    }
+
     /* Glowing Core Effect */
     .glow {
       position: absolute;
@@ -166,12 +175,183 @@
       </button>
     </div>
 
+    <!-- ASMR Ambient Music & Audio Controls Card -->
+    <div class="mt-2 w-full max-w-sm bg-slate-900/60 border border-indigo-500/20 backdrop-blur-md p-4 rounded-2xl flex flex-col gap-3 shadow-xl text-indigo-100">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button id="play-asmr-btn" class="w-10 h-10 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition shadow-lg active:scale-95 cursor-pointer">
+            <i id="play-icon" data-lucide="play" class="w-5 h-5 ml-0.5"></i>
+          </button>
+          <div class="text-left">
+            <p class="text-xs font-bold text-indigo-300 tracking-wider uppercase">Música ASMR de Fundo</p>
+            <p id="track-status" class="text-xs text-indigo-200/70">Sons Ambientais Suaves</p>
+          </div>
+        </div>
+
+        <!-- Audio Equalizer Visualizer -->
+        <div id="visualizer" class="flex items-end gap-1 h-6 w-10 opacity-50 transition-opacity">
+          <span class="w-1 bg-indigo-400 rounded-full bar-anim h-2" style="animation-delay: 0.1s"></span>
+          <span class="w-1 bg-purple-400 rounded-full bar-anim h-4" style="animation-delay: 0.3s"></span>
+          <span class="w-1 bg-indigo-300 rounded-full bar-anim h-3" style="animation-delay: 0.2s"></span>
+          <span class="w-1 bg-violet-400 rounded-full bar-anim h-5" style="animation-delay: 0.4s"></span>
+        </div>
+      </div>
+
+      <!-- Volume & Sound Selector -->
+      <div class="flex items-center gap-3 text-xs pt-1 border-t border-white/5">
+        <i data-lucide="volume-2" class="w-4 h-4 text-indigo-300 shrink-0"></i>
+        <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" class="w-full accent-indigo-400 cursor-pointer h-1.5 bg-indigo-950/80 rounded-lg">
+        
+        <select id="asmr-type" class="bg-indigo-950/80 text-indigo-200 border border-indigo-500/30 text-xs rounded-lg px-2 py-1 outline-none focus:border-indigo-400 cursor-pointer">
+          <option value="rain">Chuva & Vento</option>
+          <option value="meditation">Zen Meditação</option>
+          <option value="cosmic">Sintetizador Cósmico</option>
+        </select>
+      </div>
+    </div>
+
   </main>
 
   <!-- JavaScript Interactions -->
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
+
+    // Web Audio API Procedural ASMR Sound Generator
+    let audioCtx = null;
+    let isPlaying = false;
+    let masterGain = null;
+    let soundNodes = [];
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = parseFloat(document.getElementById('volume-slider').value);
+        masterGain.connect(audioCtx.destination);
+      }
+    }
+
+    function stopASMR() {
+      soundNodes.forEach(node => {
+        try { node.stop ? node.stop() : node.disconnect(); } catch(e){}
+      });
+      soundNodes = [];
+    }
+
+    function playASMR() {
+      initAudio();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      stopASMR();
+
+      const type = document.getElementById('asmr-type').value;
+
+      if (type === 'rain') {
+        // Rain / Pink noise generator
+        const bufferSize = audioCtx.sampleRate * 2;
+        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const output = noiseBuffer.getChannelData(0);
+        let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
+        for (let i = 0; i < bufferSize; i++) {
+          let white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          b3 = 0.86650 * b3 + white * 0.3104856;
+          b4 = 0.55000 * b4 + white * 0.5329522;
+          b5 = -0.7616 * b5 - white * 0.0168980;
+          output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+          output[i] *= 0.11;
+          b6 = white * 0.115926;
+        }
+
+        const whiteNoise = audioCtx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 1000;
+
+        whiteNoise.connect(filter);
+        filter.connect(masterGain);
+        whiteNoise.start();
+        soundNodes.push(whiteNoise);
+
+      } else if (type === 'meditation') {
+        // Binaural / Ambient drone sound
+        const freqs = [108, 216, 288, 432];
+        freqs.forEach(freq => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          
+          gain.gain.value = 0.08 / freqs.length;
+          
+          osc.connect(gain);
+          gain.connect(masterGain);
+          osc.start();
+          soundNodes.push(osc);
+        });
+
+      } else if (type === 'cosmic') {
+        // Deep relaxing cosmic pad sound
+        [65.41, 98.00, 130.81, 196.00].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          
+          gain.gain.value = 0.06;
+          
+          osc.connect(gain);
+          gain.connect(masterGain);
+          osc.start();
+          soundNodes.push(osc);
+        });
+      }
+    }
+
+    // Audio UI Handlers
+    const playBtn = document.getElementById('play-asmr-btn');
+    const playIcon = document.getElementById('play-icon');
+    const visualizer = document.getElementById('visualizer');
+    const trackStatus = document.getElementById('track-status');
+    const volumeSlider = document.getElementById('volume-slider');
+    const asmrTypeSelect = document.getElementById('asmr-type');
+
+    function togglePlay() {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        playASMR();
+        playIcon.setAttribute('data-lucide', 'pause');
+        visualizer.classList.remove('opacity-50');
+        trackStatus.textContent = 'Tocando som ambiente suave...';
+      } else {
+        stopASMR();
+        playIcon.setAttribute('data-lucide', 'play');
+        visualizer.classList.add('opacity-50');
+        trackStatus.textContent = 'Pausado';
+      }
+      lucide.createIcons();
+    }
+
+    playBtn.addEventListener('click', togglePlay);
+
+    volumeSlider.addEventListener('input', (e) => {
+      if (masterGain) {
+        masterGain.gain.value = parseFloat(e.target.value);
+      }
+    });
+
+    asmrTypeSelect.addEventListener('change', () => {
+      if (isPlaying) {
+        playASMR();
+      }
+    });
 
     // 1. Cursor Ripple Effect
     const colors = ['#c084fc', '#818cf8', '#a5b4fc', '#ddd6fe'];
