@@ -175,8 +175,8 @@
       </button>
     </div>
 
-    <!-- ASMR Ambient Music & Audio Controls Card -->
-    <div class="mt-2 w-full max-w-sm bg-slate-900/60 border border-indigo-500/20 backdrop-blur-md p-4 rounded-2xl flex flex-col gap-3 shadow-xl text-indigo-100">
+    <!-- ASMR Ambient Music & Audio Controls Card (Hidden Visually) -->
+    <div class="hidden" aria-hidden="true">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
           <button id="play-asmr-btn" class="w-10 h-10 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition shadow-lg active:scale-95 cursor-pointer">
@@ -189,7 +189,7 @@
         </div>
 
         <!-- Audio Equalizer Visualizer -->
-        <div id="visualizer" class="flex items-end gap-1 h-6 w-10 opacity-50 transition-opacity">
+        <div id="visualizer" class="flex items-end gap-1 h-6 w-10 transition-opacity">
           <span class="w-1 bg-indigo-400 rounded-full bar-anim h-2" style="animation-delay: 0.1s"></span>
           <span class="w-1 bg-purple-400 rounded-full bar-anim h-4" style="animation-delay: 0.3s"></span>
           <span class="w-1 bg-indigo-300 rounded-full bar-anim h-3" style="animation-delay: 0.2s"></span>
@@ -204,7 +204,7 @@
         
         <select id="asmr-type" class="bg-indigo-950/80 text-indigo-200 border border-indigo-500/30 text-xs rounded-lg px-2 py-1 outline-none focus:border-indigo-400 cursor-pointer">
           <option value="rain">Chuva & Vento</option>
-          <option value="meditation">Zen Meditação</option>
+          <option value="meditation" selected>Zen Meditação</option>
           <option value="cosmic">Sintetizador Cósmico</option>
         </select>
       </div>
@@ -351,6 +351,30 @@
       if (isPlaying) {
         playASMR();
       }
+    });
+
+    // Auto-start ambient relaxation music on load
+    function startAutoPlay() {
+      if (!isPlaying) {
+        togglePlay();
+      }
+    }
+
+    // Try playing immediately and bind fallback listeners for browser autoplay policy compliance
+    window.addEventListener('load', () => {
+      startAutoPlay();
+    });
+
+    // Fallback: If autoplay is restricted by the browser policy, start on first user movement/click
+    ['click', 'touchstart', 'mousemove', 'keydown'].forEach(evt => {
+      window.addEventListener(evt, () => {
+        if (!isPlaying && audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        if (!isPlaying) {
+          startAutoPlay();
+        }
+      }, { once: true });
     });
 
     // 1. Cursor Ripple Effect
