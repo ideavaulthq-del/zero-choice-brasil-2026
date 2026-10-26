@@ -3,13 +3,13 @@
   "electionId": "6258",
   "office": "president",
   "scope": "br",
-  "votesA": 64193709,
-  "votesB": 59798916,
-  "sectionsCounted": 498859,
+  "votesA": 64252284,
+  "votesB": 59824250,
+  "sectionsCounted": 499223,
   "sectionsTotal": 499248,
-  "sectionsPercent": 99.92,
+  "sectionsPercent": 99.99,
   "source": "TSE · resultados.tse.jus.br",
   "sourceUrl": "https://resultados.tse.jus.br/oficial/ele2026/6258/dados/br/br-c0001-e006258-u.json",
-  "updatedAt": "2026-10-25T21:42:25-03:00",
-  "sourceGenerationId": "4212417"
+  "updatedAt": "2026-10-25T22:25:37-03:00",
+  "sourceGenerationId": "4236790"
 }
