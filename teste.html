@@ -20,8 +20,11 @@
     body {
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
-      background: radial-gradient(circle at center, #251a68 0%, #1c154f 50%, #171331 100%);
+      background: radial-gradient(circle at center, #251a68 0%, #1c154f 50%, #171331 100%) !important;
+      background-attachment: fixed !important;
       overflow-x: hidden;
+      transition: background 2.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      animation: none !important;
     }
 
     /* Animated Loading Spinner */
@@ -34,6 +37,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background 2.5s ease-in-out;
     }
     .spinner-ring::after {
       content: '';
@@ -41,6 +45,7 @@
       height: 100px;
       border-radius: 50%;
       background: #171331;
+      transition: background 2.5s ease-in-out;
     }
 
     @keyframes spin {
@@ -64,6 +69,7 @@
       border-radius: 50%;
       background: radial-gradient(circle, rgba(129, 140, 248, 0.4) 0%, transparent 70%);
       animation: glow-pulse 2s ease-in-out infinite;
+      transition: background 2.5s ease-in-out;
     }
 
     @keyframes glow-pulse {
@@ -79,6 +85,7 @@
       border-radius: 50%;
       border: 2px solid rgba(129, 140, 248, 0.3);
       animation: pulse-out 3s ease-out infinite;
+      transition: border-color 2.5s ease-in-out;
     }
     .pulse-ring:nth-child(2) {
       animation-delay: 1s;
@@ -147,7 +154,7 @@
       </h1>
       
       <p class="sub-pulse text-lg md:text-xl text-indigo-200 font-medium mb-6 max-w-lg">
-        People are still joining — we'll begin soon
+        People are still joining we'll begin soon
       </p>
 
       <!-- Badge / Status Tag -->
@@ -511,6 +518,82 @@
     }
 
     animateParticles();
+
+    // 5. Automatic Dynamic Visual Themes Switcher (Every 5 seconds)
+    const visualThemes = [
+      {
+        bg: 'radial-gradient(circle at center, #251a68 0%, #1c154f 50%, #171331 100%)',
+        innerBg: '#171331',
+        glow: 'radial-gradient(circle, rgba(129, 140, 248, 0.4) 0%, transparent 70%)',
+        spinner: 'conic-gradient(from 0deg, transparent 0%, #818cf8 40%, #c084fc 70%, transparent 100%)',
+        ringBorder: 'rgba(129, 140, 248, 0.3)',
+        particleColor: 'rgba(192, 132, 252, '
+      },
+      {
+        bg: 'radial-gradient(circle at center, #1e3a8a 0%, #111827 50%, #030712 100%)',
+        innerBg: '#030712',
+        glow: 'radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, transparent 70%)',
+        spinner: 'conic-gradient(from 0deg, transparent 0%, #38bdf8 40%, #818cf8 70%, transparent 100%)',
+        ringBorder: 'rgba(56, 189, 248, 0.3)',
+        particleColor: 'rgba(56, 189, 248, '
+      },
+      {
+        bg: 'radial-gradient(circle at center, #31135e 0%, #1a0b2e 50%, #0d0617 100%)',
+        innerBg: '#0d0617',
+        glow: 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)',
+        spinner: 'conic-gradient(from 0deg, transparent 0%, #f472b6 40%, #c084fc 70%, transparent 100%)',
+        ringBorder: 'rgba(236, 72, 153, 0.3)',
+        particleColor: 'rgba(244, 114, 182, '
+      },
+      {
+        bg: 'radial-gradient(circle at center, #064e3b 0%, #022c22 50%, #011710 100%)',
+        innerBg: '#011710',
+        glow: 'radial-gradient(circle, rgba(52, 211, 153, 0.4) 0%, transparent 70%)',
+        spinner: 'conic-gradient(from 0deg, transparent 0%, #34d399 40%, #38bdf8 70%, transparent 100%)',
+        ringBorder: 'rgba(52, 211, 153, 0.3)',
+        particleColor: 'rgba(52, 211, 153, '
+      },
+      {
+        bg: 'radial-gradient(circle at center, #4c1d95 0%, #2e1065 50%, #170736 100%)',
+        innerBg: '#170736',
+        glow: 'radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, transparent 70%)',
+        spinner: 'conic-gradient(from 0deg, transparent 0%, #a78bfa 40%, #f472b6 70%, transparent 100%)',
+        ringBorder: 'rgba(167, 139, 250, 0.3)',
+        particleColor: 'rgba(167, 139, 250, '
+      }
+    ];
+
+    let currentThemeIndex = 0;
+
+    setInterval(() => {
+      currentThemeIndex = (currentThemeIndex + 1) % visualThemes.length;
+      const theme = visualThemes[currentThemeIndex];
+
+      // Update background gradient
+      document.body.style.background = theme.bg;
+
+      // Update spinner & center elements
+      const spinnerRing = document.querySelector('.spinner-ring');
+      if (spinnerRing) spinnerRing.style.background = theme.spinner;
+
+      const glow = document.querySelector('.glow');
+      if (glow) glow.style.background = theme.glow;
+
+      const pulseRings = document.querySelectorAll('.pulse-ring');
+      pulseRings.forEach(ring => {
+        ring.style.borderColor = theme.ringBorder;
+      });
+
+      // Update particles tone
+      particles.forEach(p => {
+        p.draw = function() {
+          ctx.fillStyle = `${theme.particleColor}${this.alpha})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        };
+      });
+    }, 5000);
   </script>
 </body>
 </html>
