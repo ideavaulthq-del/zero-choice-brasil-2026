@@ -20,11 +20,8 @@
     body {
       font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
-      background: radial-gradient(circle at center, #251a68 0%, #1c154f 50%, #171331 100%) !important;
-      background-attachment: fixed !important;
+      background: transparent !important;
       overflow-x: hidden;
-      transition: background 2.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      animation: none !important;
     }
 
     /* Animated Loading Spinner */
@@ -131,17 +128,17 @@
     }
   </style>
 </head>
-<body class="w-full flex items-center justify-center min-h-screen p-4 text-white relative">
+<body class="w-full flex items-center justify-center min-h-screen p-4 text-white relative bg-transparent">
 
   <!-- Interactive Background Particles Canvas -->
   <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
   <!-- Main Waiting Room Container (9:16 Vertical Format) -->
-  <main class="relative z-10 flex flex-col items-center justify-between h-full max-w-xs sm:max-w-sm w-full aspect-[9/16] min-h-[580px] text-center p-6 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-2xl my-auto">
+  <main class="relative z-10 flex flex-col items-center justify-between h-full max-w-xs sm:max-w-sm w-full aspect-[9/16] min-h-[580px] text-center p-6 bg-slate-900/80 border border-white/10 rounded-3xl backdrop-blur-md shadow-2xl my-auto">
     
     <!-- Top Status Tag -->
     <div class="w-full flex justify-center pt-2">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 text-xs tracking-widest font-semibold uppercase shadow-lg">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-xs tracking-widest font-semibold uppercase shadow-lg">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
         <span>Waiting for everyone</span>
       </div>
@@ -174,18 +171,18 @@
     <!-- Bottom Interactive Control Card -->
     <div class="w-full flex flex-col gap-3 pb-1">
       <div class="grid grid-cols-2 gap-2 text-xs text-indigo-300/80">
-        <div class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-900/30 border border-white/5">
+        <div class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-950/60 border border-white/10">
           <i data-lucide="users" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span>Joined: <strong id="participant-count" class="text-white font-semibold">12</strong></span>
         </div>
         
-        <div class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-900/30 border border-white/5">
+        <div class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-950/60 border border-white/10">
           <i data-lucide="clock" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span>Elapsed: <strong id="elapsed-time" class="text-white font-semibold">00:00</strong></span>
         </div>
       </div>
 
-      <button id="reaction-btn" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600/50 hover:bg-indigo-600/70 text-white font-medium text-xs transition active:scale-95 cursor-pointer border border-indigo-400/30">
+      <button id="reaction-btn" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600/60 hover:bg-indigo-600/80 text-white font-medium text-xs transition active:scale-95 cursor-pointer border border-indigo-400/30">
         <i data-lucide="heart" class="w-4 h-4 text-rose-400 fill-rose-400"></i>
         <span>Send Heart</span>
       </button>
