@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Waiting Room</title>
+  <title>Waiting Room (9:16 Vertical)</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -29,8 +29,8 @@
 
     /* Animated Loading Spinner */
     .spinner-ring {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: conic-gradient(from 0deg, transparent 0%, #818cf8 40%, #c084fc 70%, transparent 100%);
       animation: spin 1.5s linear infinite;
@@ -41,8 +41,8 @@
     }
     .spinner-ring::after {
       content: '';
-      width: 100px;
-      height: 100px;
+      width: 82px;
+      height: 82px;
       border-radius: 50%;
       background: #171331;
       transition: background 2.5s ease-in-out;
@@ -64,8 +64,8 @@
     /* Glowing Core Effect */
     .glow {
       position: absolute;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(129, 140, 248, 0.4) 0%, transparent 70%);
       animation: glow-pulse 2s ease-in-out infinite;
@@ -74,14 +74,14 @@
 
     @keyframes glow-pulse {
       0%, 100% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.6); opacity: 0.2; }
+      50% { transform: scale(1.5); opacity: 0.2; }
     }
 
     /* Expanding Pulse Rings */
     .pulse-ring {
       position: absolute;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       border: 2px solid rgba(129, 140, 248, 0.3);
       animation: pulse-out 3s ease-out infinite;
@@ -93,7 +93,7 @@
 
     @keyframes pulse-out {
       0% { transform: scale(1); opacity: 0.6; }
-      100% { transform: scale(3.2); opacity: 0; }
+      100% { transform: scale(2.8); opacity: 0; }
     }
 
     /* Subtext Fading Animation */
@@ -131,100 +131,84 @@
     }
   </style>
 </head>
-<body class="w-full flex flex-col items-center justify-center min-h-screen px-4 py-8 text-white relative">
+<body class="w-full flex items-center justify-center min-h-screen p-4 text-white relative">
 
   <!-- Interactive Background Particles Canvas -->
   <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
-  <!-- Main Waiting Room Container -->
-  <main class="relative z-10 flex flex-col items-center justify-center gap-8 max-w-2xl w-full text-center">
+  <!-- Main Waiting Room Container (9:16 Vertical Format) -->
+  <main class="relative z-10 flex flex-col items-center justify-between h-full max-w-xs sm:max-w-sm w-full aspect-[9/16] min-h-[580px] text-center p-6 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md shadow-2xl my-auto">
     
-    <!-- Spinner Animation Container -->
-    <div class="relative flex items-center justify-center my-4">
-      <div class="glow"></div>
-      <div class="pulse-ring"></div>
-      <div class="pulse-ring"></div>
-      <div class="spinner-ring"></div>
-    </div>
-
-    <!-- Text & Status Area -->
-    <div class="flex flex-col items-center px-4">
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-indigo-50 mb-4 select-none">
-        ERNESTO TOMATE
-      </h1>
-      
-      <p class="sub-pulse text-lg md:text-xl text-indigo-200 font-medium mb-6 max-w-lg">
-        People are still joining, we'll begin soon.
-      </p>
-
-      <!-- Badge / Status Tag -->
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 text-xs md:text-sm tracking-widest font-semibold uppercase shadow-lg backdrop-blur-md">
+    <!-- Top Status Tag -->
+    <div class="w-full flex justify-center pt-2">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 text-xs tracking-widest font-semibold uppercase shadow-lg">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
         <span>Waiting for everyone</span>
       </div>
     </div>
 
-    <!-- Interactive Participant Counter & Controls -->
-    <div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-indigo-300/80 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
-      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-900/30">
-        <i data-lucide="users" class="w-4 h-4 text-indigo-400"></i>
-        <span>Joined: <strong id="participant-count" class="text-white font-semibold">12</strong></span>
-      </div>
+    <!-- Center Content Area -->
+    <div class="flex flex-col items-center gap-5 my-auto w-full">
       
-      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-900/30">
-        <i data-lucide="clock" class="w-4 h-4 text-indigo-400"></i>
-        <span>Elapsed: <strong id="elapsed-time" class="text-white font-semibold">00:00</strong></span>
+      <!-- Spinner Animation -->
+      <div class="relative flex items-center justify-center my-2">
+        <div class="glow"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="spinner-ring"></div>
       </div>
 
-      <button id="reaction-btn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600/40 hover:bg-indigo-600/60 text-white transition active:scale-95 cursor-pointer">
+      <!-- Text Header -->
+      <div class="flex flex-col items-center px-2">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-indigo-50 mb-2 leading-tight select-none">
+          ERNESTO TOMATE
+        </h1>
+        
+        <p class="sub-pulse text-xs sm:text-sm text-indigo-200 font-medium max-w-xs">
+          People are still joining, we'll begin soon.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Bottom Interactive Control Card -->
+    <div class="w-full flex flex-col gap-3 pb-1">
+      <div class="grid grid-cols-2 gap-2 text-xs text-indigo-300/80">
+        <div class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-900/30 border border-white/5">
+          <i data-lucide="users" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Joined: <strong id="participant-count" class="text-white font-semibold">12</strong></span>
+        </div>
+        
+        <div class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-900/30 border border-white/5">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Elapsed: <strong id="elapsed-time" class="text-white font-semibold">00:00</strong></span>
+        </div>
+      </div>
+
+      <button id="reaction-btn" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600/50 hover:bg-indigo-600/70 text-white font-medium text-xs transition active:scale-95 cursor-pointer border border-indigo-400/30">
         <i data-lucide="heart" class="w-4 h-4 text-rose-400 fill-rose-400"></i>
         <span>Send Heart</span>
       </button>
     </div>
 
-    <!-- ASMR Ambient Music & Audio Controls Card (Hidden Visually) -->
+    <!-- Hidden Audio Controls -->
     <div class="hidden" aria-hidden="true">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <button id="play-asmr-btn" class="w-10 h-10 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition shadow-lg active:scale-95 cursor-pointer">
-            <i id="play-icon" data-lucide="play" class="w-5 h-5 ml-0.5"></i>
-          </button>
-          <div class="text-left">
-            <p class="text-xs font-bold text-indigo-300 tracking-wider uppercase">Música ASMR de Fundo</p>
-            <p id="track-status" class="text-xs text-indigo-200/70">Sons Ambientais Suaves</p>
-          </div>
-        </div>
-
-        <!-- Audio Equalizer Visualizer -->
-        <div id="visualizer" class="flex items-end gap-1 h-6 w-10 transition-opacity">
-          <span class="w-1 bg-indigo-400 rounded-full bar-anim h-2" style="animation-delay: 0.1s"></span>
-          <span class="w-1 bg-purple-400 rounded-full bar-anim h-4" style="animation-delay: 0.3s"></span>
-          <span class="w-1 bg-indigo-300 rounded-full bar-anim h-3" style="animation-delay: 0.2s"></span>
-          <span class="w-1 bg-violet-400 rounded-full bar-anim h-5" style="animation-delay: 0.4s"></span>
-        </div>
-      </div>
-
-      <!-- Volume & Sound Selector -->
-      <div class="flex items-center gap-3 text-xs pt-1 border-t border-white/5">
-        <i data-lucide="volume-2" class="w-4 h-4 text-indigo-300 shrink-0"></i>
-        <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5" class="w-full accent-indigo-400 cursor-pointer h-1.5 bg-indigo-950/80 rounded-lg">
-        
-        <select id="asmr-type" class="bg-indigo-950/80 text-indigo-200 border border-indigo-500/30 text-xs rounded-lg px-2 py-1 outline-none focus:border-indigo-400 cursor-pointer">
-          <option value="rain">Chuva & Vento</option>
-          <option value="meditation" selected>Zen Meditação</option>
-          <option value="cosmic">Sintetizador Cósmico</option>
-        </select>
-      </div>
+      <button id="play-asmr-btn"><i id="play-icon" data-lucide="play"></i></button>
+      <p id="track-status"></p>
+      <div id="visualizer"></div>
+      <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5">
+      <select id="asmr-type">
+        <option value="meditation" selected>Zen Meditação</option>
+      </select>
     </div>
 
   </main>
 
-  <!-- JavaScript Interactions -->
+  <!-- JavaScript Logic -->
   <script>
-    // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Web Audio API Procedural ASMR Sound Generator
+    // Audio Generator
     let audioCtx = null;
     let isPlaying = false;
     let masterGain = null;
@@ -234,7 +218,8 @@
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         masterGain = audioCtx.createGain();
-        masterGain.gain.value = parseFloat(document.getElementById('volume-slider').value);
+        const volEl = document.getElementById('volume-slider');
+        masterGain.gain.value = volEl ? parseFloat(volEl.value) : 0.5;
         masterGain.connect(audioCtx.destination);
       }
     }
@@ -253,145 +238,50 @@
       }
       stopASMR();
 
-      const type = document.getElementById('asmr-type').value;
-
-      if (type === 'rain') {
-        // Rain / Pink noise generator
-        const bufferSize = audioCtx.sampleRate * 2;
-        const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const output = noiseBuffer.getChannelData(0);
-        let b0=0, b1=0, b2=0, b3=0, b4=0, b5=0, b6=0;
-        for (let i = 0; i < bufferSize; i++) {
-          let white = Math.random() * 2 - 1;
-          b0 = 0.99886 * b0 + white * 0.0555179;
-          b1 = 0.99332 * b1 + white * 0.0750759;
-          b2 = 0.96900 * b2 + white * 0.1538520;
-          b3 = 0.86650 * b3 + white * 0.3104856;
-          b4 = 0.55000 * b4 + white * 0.5329522;
-          b5 = -0.7616 * b5 - white * 0.0168980;
-          output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
-          output[i] *= 0.11;
-          b6 = white * 0.115926;
-        }
-
-        const whiteNoise = audioCtx.createBufferSource();
-        whiteNoise.buffer = noiseBuffer;
-        whiteNoise.loop = true;
-
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 1000;
-
-        whiteNoise.connect(filter);
-        filter.connect(masterGain);
-        whiteNoise.start();
-        soundNodes.push(whiteNoise);
-
-      } else if (type === 'meditation') {
-        // Binaural / Ambient drone sound
-        const freqs = [108, 216, 288, 432];
-        freqs.forEach(freq => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          
-          gain.gain.value = 0.08 / freqs.length;
-          
-          osc.connect(gain);
-          gain.connect(masterGain);
-          osc.start();
-          soundNodes.push(osc);
-        });
-
-      } else if (type === 'cosmic') {
-        // Deep relaxing cosmic pad sound
-        [65.41, 98.00, 130.81, 196.00].forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          
-          gain.gain.value = 0.06;
-          
-          osc.connect(gain);
-          gain.connect(masterGain);
-          osc.start();
-          soundNodes.push(osc);
-        });
-      }
+      const freqs = [108, 216, 288, 432];
+      freqs.forEach(freq => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.value = 0.08 / freqs.length;
+        osc.connect(gain);
+        gain.connect(masterGain);
+        osc.start();
+        soundNodes.push(osc);
+      });
     }
-
-    // Audio UI Handlers
-    const playBtn = document.getElementById('play-asmr-btn');
-    const playIcon = document.getElementById('play-icon');
-    const visualizer = document.getElementById('visualizer');
-    const trackStatus = document.getElementById('track-status');
-    const volumeSlider = document.getElementById('volume-slider');
-    const asmrTypeSelect = document.getElementById('asmr-type');
 
     function togglePlay() {
       isPlaying = !isPlaying;
       if (isPlaying) {
         playASMR();
-        playIcon.setAttribute('data-lucide', 'pause');
-        visualizer.classList.remove('opacity-50');
-        trackStatus.textContent = 'Tocando som ambiente suave...';
       } else {
         stopASMR();
-        playIcon.setAttribute('data-lucide', 'play');
-        visualizer.classList.add('opacity-50');
-        trackStatus.textContent = 'Pausado';
-      }
-      lucide.createIcons();
-    }
-
-    playBtn.addEventListener('click', togglePlay);
-
-    volumeSlider.addEventListener('input', (e) => {
-      if (masterGain) {
-        masterGain.gain.value = parseFloat(e.target.value);
-      }
-    });
-
-    asmrTypeSelect.addEventListener('change', () => {
-      if (isPlaying) {
-        playASMR();
-      }
-    });
-
-    // Auto-start ambient relaxation music on load
-    function startAutoPlay() {
-      if (!isPlaying) {
-        togglePlay();
       }
     }
 
-    // Try playing immediately and bind fallback listeners for browser autoplay policy compliance
     window.addEventListener('load', () => {
-      startAutoPlay();
+      if (!isPlaying) togglePlay();
     });
 
-    // Fallback: If autoplay is restricted by the browser policy, start on first user movement/click
     ['click', 'touchstart', 'mousemove', 'keydown'].forEach(evt => {
       window.addEventListener(evt, () => {
         if (!isPlaying && audioCtx && audioCtx.state === 'suspended') {
           audioCtx.resume();
         }
         if (!isPlaying) {
-          startAutoPlay();
+          togglePlay();
         }
       }, { once: true });
     });
 
-    // 1. Cursor Ripple Effect
+    // Cursor Ripples Effect
     const colors = ['#c084fc', '#818cf8', '#a5b4fc', '#ddd6fe'];
     let lastRippleTime = 0;
-    const rippleThrottle = 70; // Throttling interval in ms
 
     function createCursorRipple(x, y) {
       const color = colors[Math.floor(Math.random() * colors.length)];
-      
       const container = document.createElement('div');
       container.className = 'cursor-ripple';
       container.style.left = x + 'px';
@@ -403,31 +293,18 @@
       
       container.appendChild(ripple);
       document.body.appendChild(container);
-      
       setTimeout(() => container.remove(), 1200);
     }
 
     document.addEventListener('mousemove', (e) => {
       const now = Date.now();
-      if (now - lastRippleTime > rippleThrottle) {
+      if (now - lastRippleTime > 70) {
         createCursorRipple(e.clientX, e.clientY);
         lastRippleTime = now;
       }
     });
 
-    // Touch event support for ripples on mobile
-    document.addEventListener('touchmove', (e) => {
-      const touch = e.touches[0];
-      if (touch) {
-        const now = Date.now();
-        if (now - lastRippleTime > rippleThrottle) {
-          createCursorRipple(touch.clientX, touch.clientY);
-          lastRippleTime = now;
-        }
-      }
-    });
-
-    // 2. Timer & Simulated Participant Count Increments
+    // Timer & Count Simulation
     let secondsElapsed = 0;
     const timeEl = document.getElementById('elapsed-time');
     const countEl = document.getElementById('participant-count');
@@ -439,18 +316,17 @@
       if (timeEl) timeEl.textContent = `${mins}:${secs}`;
     }, 1000);
 
-    // Periodically simulate a user joining
     setInterval(() => {
-      if (Math.random() > 0.4) {
+      if (Math.random() > 0.4 && countEl) {
         let current = parseInt(countEl.textContent, 10) || 12;
         countEl.textContent = current + 1;
       }
     }, 6000);
 
-    // 3. Floating Reaction Wave Effect
+    // Heart Reaction
     const reactionBtn = document.getElementById('reaction-btn');
     if (reactionBtn) {
-      reactionBtn.addEventListener('click', (e) => {
+      reactionBtn.addEventListener('click', () => {
         const rect = reactionBtn.getBoundingClientRect();
         for (let i = 0; i < 6; i++) {
           setTimeout(() => {
@@ -461,7 +337,7 @@
       });
     }
 
-    // 4. Ambient Canvas Particles
+    // Canvas Particles
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let width, height;
@@ -476,10 +352,7 @@
     resizeCanvas();
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
-
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
@@ -488,14 +361,12 @@
         this.speedY = -(Math.random() * 0.4 + 0.1);
         this.speedX = (Math.random() - 0.5) * 0.2;
       }
-
       update() {
         this.y += this.speedY;
         this.x += this.speedX;
         if (this.y < 0) this.y = height;
         if (this.x < 0 || this.x > width) this.x = Math.random() * width;
       }
-
       draw() {
         ctx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
         ctx.beginPath();
@@ -504,96 +375,16 @@
       }
     }
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 30; i++) {
       particles.push(new Particle());
     }
 
     function animateParticles() {
       ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
+      particles.forEach(p => { p.update(); p.draw(); });
       requestAnimationFrame(animateParticles);
     }
-
     animateParticles();
-
-    // 5. Automatic Dynamic Visual Themes Switcher (Every 5 seconds)
-    const visualThemes = [
-      {
-        bg: 'radial-gradient(circle at center, #251a68 0%, #1c154f 50%, #171331 100%)',
-        innerBg: '#171331',
-        glow: 'radial-gradient(circle, rgba(129, 140, 248, 0.4) 0%, transparent 70%)',
-        spinner: 'conic-gradient(from 0deg, transparent 0%, #818cf8 40%, #c084fc 70%, transparent 100%)',
-        ringBorder: 'rgba(129, 140, 248, 0.3)',
-        particleColor: 'rgba(192, 132, 252, '
-      },
-      {
-        bg: 'radial-gradient(circle at center, #1e3a8a 0%, #111827 50%, #030712 100%)',
-        innerBg: '#030712',
-        glow: 'radial-gradient(circle, rgba(56, 189, 248, 0.4) 0%, transparent 70%)',
-        spinner: 'conic-gradient(from 0deg, transparent 0%, #38bdf8 40%, #818cf8 70%, transparent 100%)',
-        ringBorder: 'rgba(56, 189, 248, 0.3)',
-        particleColor: 'rgba(56, 189, 248, '
-      },
-      {
-        bg: 'radial-gradient(circle at center, #31135e 0%, #1a0b2e 50%, #0d0617 100%)',
-        innerBg: '#0d0617',
-        glow: 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, transparent 70%)',
-        spinner: 'conic-gradient(from 0deg, transparent 0%, #f472b6 40%, #c084fc 70%, transparent 100%)',
-        ringBorder: 'rgba(236, 72, 153, 0.3)',
-        particleColor: 'rgba(244, 114, 182, '
-      },
-      {
-        bg: 'radial-gradient(circle at center, #064e3b 0%, #022c22 50%, #011710 100%)',
-        innerBg: '#011710',
-        glow: 'radial-gradient(circle, rgba(52, 211, 153, 0.4) 0%, transparent 70%)',
-        spinner: 'conic-gradient(from 0deg, transparent 0%, #34d399 40%, #38bdf8 70%, transparent 100%)',
-        ringBorder: 'rgba(52, 211, 153, 0.3)',
-        particleColor: 'rgba(52, 211, 153, '
-      },
-      {
-        bg: 'radial-gradient(circle at center, #4c1d95 0%, #2e1065 50%, #170736 100%)',
-        innerBg: '#170736',
-        glow: 'radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, transparent 70%)',
-        spinner: 'conic-gradient(from 0deg, transparent 0%, #a78bfa 40%, #f472b6 70%, transparent 100%)',
-        ringBorder: 'rgba(167, 139, 250, 0.3)',
-        particleColor: 'rgba(167, 139, 250, '
-      }
-    ];
-
-    let currentThemeIndex = 0;
-
-    setInterval(() => {
-      currentThemeIndex = (currentThemeIndex + 1) % visualThemes.length;
-      const theme = visualThemes[currentThemeIndex];
-
-      // Update background gradient
-      document.body.style.background = theme.bg;
-
-      // Update spinner & center elements
-      const spinnerRing = document.querySelector('.spinner-ring');
-      if (spinnerRing) spinnerRing.style.background = theme.spinner;
-
-      const glow = document.querySelector('.glow');
-      if (glow) glow.style.background = theme.glow;
-
-      const pulseRings = document.querySelectorAll('.pulse-ring');
-      pulseRings.forEach(ring => {
-        ring.style.borderColor = theme.ringBorder;
-      });
-
-      // Update particles tone
-      particles.forEach(p => {
-        p.draw = function() {
-          ctx.fillStyle = `${theme.particleColor}${this.alpha})`;
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-          ctx.fill();
-        };
-      });
-    }, 5000);
   </script>
 </body>
 </html>
