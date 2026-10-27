@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PARLAMENTO NEWS STUDIO V2</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- HLS.js for m3u8 live stream playing support -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     
     <script>
@@ -23,12 +19,8 @@
                     },
                     colors: {
                         brand: {
-                            red: '#e31b23',
-                            darkRed: '#a80d13',
-                            navy: '#0b1320',
-                            panel: '#111c2e',
-                            accent: '#2563eb',
-                            gold: '#f59e0b'
+                            red: '#e31b23', darkRed: '#a80d13', navy: '#0b1320',
+                            panel: '#111c2e', accent: '#2563eb', gold: '#f59e0b'
                         }
                     },
                     animation: {
@@ -37,66 +29,35 @@
                         'flash-red': 'flashRed 0.5s ease-in-out infinite alternate',
                     },
                     keyframes: {
-                        ticker: {
-                            '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-50%)' }
-                        },
-                        flashRed: {
-                            '0%': { backgroundColor: '#e31b23' },
-                            '100%': { backgroundColor: '#7f1d1d' }
-                        }
+                        ticker: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } },
+                        flashRed: { '0%': { backgroundColor: '#e31b23' }, '100%': { backgroundColor: '#7f1d1d' } }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Ocultar barra de rolagem GLOBALMENTE */
-        * {
-            -ms-overflow-style: none !important;  /* IE and Edge */
-            scrollbar-width: none !important;     /* Firefox */
-        }
-        *::-webkit-scrollbar {
-            display: none !important;             /* Chrome, Safari and Opera */
-            width: 0 !important;
-            height: 0 !important;
-        }
-
-        /* Efeitos de vidro (glassmorphism) */
-        .glass-panel {
-            background: rgba(17, 28, 46, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
         .glass-lower3rd {
             background: linear-gradient(90deg, rgba(11, 19, 32, 0.95) 0%, rgba(17, 28, 46, 0.9) 100%);
             backdrop-filter: blur(8px);
         }
-
-        /* Fundos simulados para os feeds de vídeo */
-        .simulated-feed-1 {
-            background: radial-gradient(circle at 50% 40%, #1e3a8a 0%, #0f172a 70%, #020617 100%);
-        }
-        .simulated-feed-2 {
-            background: radial-gradient(circle at 60% 50%, #854d0e 0%, #1c1917 70%, #0c0a09 100%);
-        }
-        .simulated-feed-3 {
-            background: radial-gradient(circle at 40% 30%, #065f46 0%, #022c22 70%, #052e16 100%);
+        .simulated-feed-1 { background: radial-gradient(circle at 50% 40%, #1e3a8a 0%, #0f172a 70%, #020617 100%); }
+        .simulated-feed-2 { background: radial-gradient(circle at 60% 50%, #854d0e 0%, #1c1917 70%, #0c0a09 100%); }
+        .simulated-feed-3 { background: radial-gradient(circle at 40% 30%, #065f46 0%, #022c22 70%, #052e16 100%); }
+        @media (prefers-reduced-motion: reduce) {
+            .animate-ticker, .animate-pulse, .animate-ping, .animate-bounce, .animate-flash-red { animation: none !important; }
+            * { transition-duration: 0.01ms !important; }
         }
     </style>
 </head>
-<body class="bg-black text-white font-sans overflow-hidden select-none h-screen w-screen">
+<body class="bg-black text-white font-sans overflow-hidden h-screen w-screen">
 
-    <!-- MAIN BROADCAST CONTAINER (responsivo) -->
     <div id="broadcastFrame" class="w-full h-full flex flex-col justify-between relative bg-black transition-all duration-300">
 
-        <!-- 1. TOP HEADER BAR -->
         <header class="h-14 bg-gradient-to-r from-brand-navy via-slate-900 to-brand-navy border-b border-slate-800/80 px-4 md:px-8 flex items-center justify-between z-20 shadow-lg">
-            <!-- Brand & Channel Identity -->
             <div class="flex items-center space-x-3">
                 <div class="bg-brand-red text-white font-black px-2.5 py-1 rounded text-lg tracking-wider uppercase flex items-center gap-2 shadow-md">
-                    <i class="fa-solid font-bold fa-building-columns"></i> AR
+                    <i class="fa-solid font-bold fa-building-columns" aria-hidden="true"></i> AR
                 </div>
                 <div class="flex flex-col">
                     <span id="channelName" class="font-condensed text-xl md:text-2xl font-bold tracking-wider uppercase text-white leading-none">
@@ -106,101 +67,78 @@
                 </div>
             </div>
 
-            <!-- Header Center Info: Key Topic -->
             <div class="hidden md:flex items-center bg-slate-800/60 border border-slate-700/50 rounded-full px-4 py-1 text-xs">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span>
                 <span class="text-slate-300 font-medium">EMISSÃO ESPECIAL: <strong class="text-white font-semibold uppercase" id="topTopic">DEBATE DO ORÇAMENTO DO ESTADO</strong></span>
             </div>
 
-            <!-- Clock & Location Badge -->
             <div class="flex items-center space-x-4">
                 <div class="text-right">
-                    <div id="clockTime" class="font-mono text-lg md:text-xl font-extrabold tracking-tight text-white leading-none">
-                        18:00:00
-                    </div>
-                    <div id="clockZone" class="text-[10px] font-bold text-slate-400 tracking-wider">
-                        LISBOA (UTC+0)
-                    </div>
+                    <div id="clockTime" class="font-mono text-lg md:text-xl font-extrabold tracking-tight text-white leading-none">18:00:00</div>
+                    <div id="clockZone" class="text-[10px] font-bold text-slate-400 tracking-wider">LISBOA</div>
                 </div>
-                <button onclick="toggleSettings()" title="Abrir Definições (Teclado: S)" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 hover:text-white transition">
-                    <i class="fa-solid fa-sliders text-sm"></i>
+                <button type="button" onclick="toggleSettings()" title="Abrir Definições (Teclado: S)" aria-label="Abrir definições" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 hover:text-white transition">
+                    <i class="fa-solid fa-sliders text-sm" aria-hidden="true"></i>
                 </button>
             </div>
         </header>
 
-        <!-- 2. MAIN CONTENT AREA (GRID WITH VIDEO + SIDEBAR) -->
         <main id="mainGrid" class="flex-1 grid grid-cols-12 gap-0 overflow-hidden relative">
             
-            <!-- VIDEO BROADCAST STAGE -->
             <section id="videoSection" class="col-span-12 lg:col-span-9 relative bg-slate-950 overflow-hidden flex items-center justify-center">
                 
-                <!-- Video Elements / Canvas Streams -->
-                <video id="liveVideo" class="w-full h-full object-cover hidden" autoplay playsinline muted></video>
+                <!-- Sem atributo muted: áudio ativo por defeito -->
+                <video id="liveVideo" class="w-full h-full object-cover hidden" autoplay playsinline></video>
 
-                <!-- Simulated Graphics Feed (Fallback when no live video stream) -->
                 <div id="simulatedFeed" class="absolute inset-0 simulated-feed-1 flex flex-col items-center justify-center p-6 text-center transition-all duration-700">
-                    <!-- Background Animated Grid Pattern -->
                     <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                    
                     <div class="z-10 max-w-2xl flex flex-col items-center">
                         <div class="relative mb-6">
                             <div class="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-slate-700/50 flex items-center justify-center bg-slate-900/60 shadow-2xl backdrop-blur-md">
-                                <i id="feedIcon" class="fa-solid fa-building-columns text-5xl md:text-6xl text-slate-300"></i>
+                                <i id="feedIcon" class="fa-solid fa-building-columns text-5xl md:text-6xl text-slate-300" aria-hidden="true"></i>
                             </div>
-                            <span id="liveBadgeDot" class="absolute top-2 right-2 flex h-5 w-5">
+                            <span class="absolute top-2 right-2 flex h-5 w-5">
                               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                               <span class="relative inline-flex rounded-full h-5 w-5 bg-red-600 border-2 border-slate-900"></span>
                             </span>
                         </div>
-                        <h2 id="feedTitle" class="font-condensed text-3xl md:text-5xl font-extrabold text-white tracking-wide uppercase mb-2">
-                            ASSEMBLEIA DA REPÚBLICA
-                        </h2>
-                        <p id="feedSubtitle" class="text-slate-300 text-base md:text-lg font-medium mb-4">
-                            Emissão em Direto · Palácio de São Bento, Lisboa
-                        </p>
-                        <div id="feedStatusPill" class="inline-flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 text-slate-300 text-xs font-semibold px-4 py-1.5 rounded-full shadow-inner">
-                            <i class="fa-solid fa-signal text-emerald-400"></i> <span id="feedStatusText">Sinal Interno Estável · Câmara 01</span>
+                        <h2 id="feedTitle" class="font-condensed text-3xl md:text-5xl font-extrabold text-white tracking-wide uppercase mb-2">ASSEMBLEIA DA REPÚBLICA</h2>
+                        <p id="feedSubtitle" class="text-slate-300 text-base md:text-lg font-medium mb-4">Emissão em Direto · Palácio de São Bento, Lisboa</p>
+                        <div class="inline-flex items-center gap-2 bg-slate-900/80 border border-slate-700/60 text-slate-300 text-xs font-semibold px-4 py-1.5 rounded-full shadow-inner">
+                            <i class="fa-solid fa-signal text-emerald-400" aria-hidden="true"></i> <span id="feedStatusText">Sinal Interno Estável · Câmara 01</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Secondary Picture-in-Picture Box (PiP Mode) -->
                 <div id="pipContainer" class="hidden absolute top-4 right-4 w-1/3 max-w-[280px] aspect-video bg-slate-900 border-2 border-brand-red shadow-2xl rounded-lg overflow-hidden z-20">
                     <div class="w-full h-full relative simulated-feed-2 flex items-center justify-center">
                         <span class="absolute top-1 left-1 bg-red-600 text-[10px] font-bold px-1.5 py-0.5 rounded text-white uppercase">SALA DE IMPRENSA</span>
-                        <i class="fa-solid fa-microphone-lines text-3xl text-amber-500/80"></i>
+                        <i class="fa-solid fa-microphone-lines text-3xl text-amber-500/80" aria-hidden="true"></i>
                     </div>
                 </div>
 
-                <!-- OVERLAY: Top Left Broadcast Tags -->
+                <!-- Badges + Botão de Áudio -->
                 <div class="absolute top-4 left-4 z-10 flex flex-col items-start space-y-2">
                     <div id="badgeLive" class="bg-brand-red text-white font-extrabold text-xs md:text-sm px-3 py-1 rounded shadow-md tracking-wider flex items-center gap-2 uppercase">
                         <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                         <span id="badgeLiveText">● DIRETO</span>
                     </div>
                     <div id="locationBadge" class="bg-slate-900/90 border border-slate-700 text-slate-200 text-xs px-2.5 py-1 rounded backdrop-blur-md font-semibold flex items-center gap-1.5">
-                        <i class="fa-solid fa-location-dot text-brand-red"></i>
+                        <i class="fa-solid fa-location-dot text-brand-red" aria-hidden="true"></i>
                         <span id="locationText">SÃO BENTO, LISBOA</span>
                     </div>
-                </div>
-
-                <!-- OVERLAY: Audio Status Indicator -->
-                <div class="absolute top-4 right-4 z-10">
-                    <button id="audioToggleBtn" onclick="toggleMute()" class="bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-xs text-slate-300 px-3 py-1.5 rounded-md backdrop-blur-md transition flex items-center gap-2">
-                        <i id="audioIcon" class="fa-solid fa-volume-xmark text-slate-400"></i>
-                        <span id="audioText">Áudio Silenciado</span>
+                    <button type="button" id="audioToggleBtn" onclick="toggleMute()" class="bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-xs text-slate-300 px-3 py-1.5 rounded-md backdrop-blur-md transition flex items-center gap-2">
+                        <i id="audioIcon" class="fa-solid fa-volume-high text-emerald-400" aria-hidden="true"></i>
+                        <span id="audioText">Áudio Ativo</span>
                     </button>
                 </div>
 
-                <!-- OVERLAY: LOWER THIRD (LOWER BANNER) -->
+                <!-- Lower third -->
                 <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-col items-start max-w-4xl">
-                    <!-- Breaking News Banner (Hidden by default, toggleable) -->
                     <div id="breakingBanner" class="hidden w-full bg-brand-red text-white px-4 py-1.5 rounded-t-lg font-condensed font-extrabold text-lg md:text-xl tracking-wider uppercase animate-flash-red flex items-center gap-3 shadow-lg">
-                        <i class="fa-solid fa-triangle-exclamation animate-bounce"></i>
+                        <i class="fa-solid fa-triangle-exclamation animate-bounce" aria-hidden="true"></i>
                         <span>ÚLTIMA HORA // URGENTE</span>
                     </div>
-
-                    <!-- Main Lower Third Display -->
                     <div class="w-full glass-lower3rd border-l-8 border-brand-red p-3 md:p-4 rounded-r-lg shadow-2xl text-white">
                         <div class="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-widest mb-1">
                             <span id="lowerCategory">PARLAMENTO</span>
@@ -218,20 +156,15 @@
 
             </section>
 
-            <!-- SIDEBAR: NEWS FEED & PROGRAMMING -->
             <aside id="sidebarSection" class="hidden lg:flex lg:col-span-3 bg-brand-panel border-l border-slate-800/80 flex-col justify-between overflow-hidden">
-                <!-- Sidebar Header -->
                 <div class="p-3 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
                     <span class="font-condensed font-bold text-slate-200 tracking-wider text-sm uppercase flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-brand-red"></i> AGENDA DO DIA
+                        <i class="fa-solid fa-list-check text-brand-red" aria-hidden="true"></i> AGENDA DO DIA
                     </span>
                     <span class="text-[10px] bg-slate-800 text-slate-400 font-semibold px-2 py-0.5 rounded">EM TEMPO REAL</span>
                 </div>
 
-                <!-- Feed Updates / Sidebar Agenda -->
                 <div id="sidebarContent" class="flex-1 overflow-y-auto p-3 space-y-3">
-                    
-                    <!-- Agenda Item 1 -->
                     <div class="p-3 rounded-lg bg-slate-900/50 border border-slate-800/80 hover:border-slate-700 transition">
                         <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
                             <span class="font-mono font-bold text-amber-400">10:00 - CONCLUÍDO</span>
@@ -241,7 +174,6 @@
                         <p class="text-[11px] text-slate-400 leading-snug">Votação das atas anteriores e declarações políticas dos grupos parlamentares.</p>
                     </div>
 
-                    <!-- Agenda Item 2 (Active) -->
                     <div class="p-3 rounded-lg bg-slate-800/80 border-l-4 border-brand-red border-y border-r border-slate-700 shadow-md">
                         <div class="flex items-center justify-between text-xs text-slate-300 mb-1">
                             <span class="font-mono font-bold text-red-400 flex items-center gap-1">
@@ -253,7 +185,6 @@
                         <p class="text-[11px] text-slate-300 leading-snug">Audição dos ministros e discussão em especialidade sobre políticas sociais.</p>
                     </div>
 
-                    <!-- Agenda Item 3 -->
                     <div class="p-3 rounded-lg bg-slate-900/50 border border-slate-800/80 hover:border-slate-700 transition">
                         <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
                             <span class="font-mono font-bold text-slate-400">18:30 - SEGUINTE</span>
@@ -263,72 +194,43 @@
                         <p class="text-[11px] text-slate-400 leading-snug">Votação final global de projetos de lei em agenda.</p>
                     </div>
 
-                    <!-- Key Indicators Panel -->
                     <div class="mt-4 p-3 bg-slate-900/90 rounded-lg border border-slate-800">
                         <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
                             <span>Resumo de Votações</span>
-                            <i class="fa-solid fa-chart-pie text-brand-red"></i>
+                            <i class="fa-solid fa-chart-pie text-brand-red" aria-hidden="true"></i>
                         </div>
                         <div class="space-y-2">
                             <div>
-                                <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5">
-                                    <span>A favor</span>
-                                    <span>132 (57%)</span>
-                                </div>
-                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                    <div class="bg-emerald-500 h-full w-[57%]"></div>
-                                </div>
+                                <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5"><span>A favor</span><span>132 (57%)</span></div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-emerald-500 h-full w-[57%]"></div></div>
                             </div>
                             <div>
-                                <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5">
-                                    <span>Contra</span>
-                                    <span>78 (34%)</span>
-                                </div>
-                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                    <div class="bg-red-500 h-full w-[34%]"></div>
-                                </div>
+                                <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5"><span>Contra</span><span>78 (34%)</span></div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-red-500 h-full w-[34%]"></div></div>
                             </div>
                             <div>
-                                <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5">
-                                    <span>Abstenção</span>
-                                    <span>20 (9%)</span>
-                                </div>
-                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-                                    <div class="bg-amber-500 h-full w-[9%]"></div>
-                                </div>
+                                <div class="flex justify-between text-[10px] font-bold text-slate-300 mb-0.5"><span>Abstenção</span><span>20 (9%)</span></div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-amber-500 h-full w-[9%]"></div></div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <!-- Sidebar Footer Status -->
                 <div class="p-3 bg-slate-950 border-t border-slate-800 text-[10px] text-slate-400 flex items-center justify-between">
                     <span>FONTE: CANAL PARLAMENTO</span>
-                    <span class="text-emerald-400 flex items-center gap-1"><i class="fa-solid fa-circle text-[6px]"></i> SERVIDOR ATIVO</span>
+                    <span class="text-emerald-400 flex items-center gap-1"><i class="fa-solid fa-circle text-[6px]" aria-hidden="true"></i> SERVIDOR ATIVO</span>
                 </div>
             </aside>
 
         </main>
 
-        <!-- 3. BOTTOM NEWS TICKER BAR -->
         <footer class="h-10 bg-slate-900 border-t border-slate-800 flex items-center overflow-hidden relative z-30 shadow-2xl">
-            <!-- Fixed News Label Tag -->
             <div id="tickerTag" class="h-full bg-brand-red text-white font-condensed font-black px-4 flex items-center text-sm md:text-base tracking-wider uppercase z-10 shrink-0 shadow-lg">
-                <i class="fa-solid fa-bolt mr-2 text-xs"></i> NOTÍCIAS
+                <i class="fa-solid fa-bolt mr-2 text-xs" aria-hidden="true"></i> NOTÍCIAS
             </div>
-
-            <!-- Ticker Scrolling Container -->
             <div class="flex-1 overflow-hidden relative flex items-center h-full bg-slate-950">
-                <div id="tickerContent" class="inline-block whitespace-nowrap animate-ticker font-semibold text-xs md:text-sm text-slate-200">
-                    <span class="mx-4 text-amber-400">●</span> ASSEMBLEIA DA REPÚBLICA: Debates prosseguem esta tarde em São Bento
-                    <span class="mx-4 text-amber-400">●</span> ORÇAMENTO DO ESTADO: Propostas em apreciação nas comissões parlamentares
-                    <span class="mx-4 text-amber-400">●</span> DECLARAÇÕES POLÍTICAS: Grupos parlamentares apresentam posições sobre economia e habitação
-                    <span class="mx-4 text-amber-400">●</span> INFORMAÇÃO EM DIRETO: Siga a transmissão integral e as atualizações regimetais
-                </div>
+                <div id="tickerContent" class="inline-block whitespace-nowrap animate-ticker font-semibold text-xs md:text-sm text-slate-200"></div>
             </div>
-
-            <!-- Quick Mode Switcher / Time Tag -->
             <div class="hidden sm:flex h-full bg-slate-900 text-slate-400 text-[11px] font-bold px-3 items-center border-l border-slate-800 shrink-0">
                 <span class="text-brand-red mr-1.5">●</span> HD LIVE
             </div>
@@ -336,225 +238,270 @@
 
     </div>
 
-    <!-- CONTROL PANEL MODAL (SETTINGS) -->
-    <div id="settingsPanel" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <!-- Prompt flutuante para ativar áudio quando autoplay é bloqueado -->
+    <button id="unmutePrompt" type="button" onclick="forceUnmute()" class="hidden fixed bottom-16 right-4 z-50 bg-brand-red hover:bg-red-700 text-white px-4 py-2 rounded-lg font-bold shadow-2xl animate-pulse flex items-center gap-2">
+        <i class="fa-solid fa-volume-high" aria-hidden="true"></i> Ativar Áudio
+    </button>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsPanel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            
-            <!-- Modal Header -->
             <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
-                <div class="flex items-center gap-2 font-condensed text-lg font-bold text-white uppercase">
-                    <i class="fa-solid fa-sliders text-brand-red"></i> Painel de Controlo da Emissão
+                <div id="settingsTitle" class="flex items-center gap-2 font-condensed text-lg font-bold text-white uppercase">
+                    <i class="fa-solid fa-sliders text-brand-red" aria-hidden="true"></i> Painel de Controlo da Emissão
                 </div>
-                <button onclick="toggleSettings()" class="text-slate-400 hover:text-white text-lg px-2">
-                    <i class="fa-solid fa-xmark"></i>
+                <button type="button" onclick="toggleSettings()" aria-label="Fechar definições" class="text-slate-400 hover:text-white text-lg px-2">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
             </div>
 
-            <!-- Modal Form Content -->
             <div class="p-5 overflow-y-auto space-y-4 text-xs md:text-sm text-slate-300">
-                
-                <!-- Layout & Presets Selector -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 pb-3 border-b border-slate-800">
-                    <button onclick="setLayout('default')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded font-semibold text-center text-slate-200 border border-slate-700">
-                        Layout Padrão
-                    </button>
-                    <button onclick="setLayout('fullscreen')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded font-semibold text-center text-slate-200 border border-slate-700">
-                        Vídeo Cheio
-                    </button>
-                    <button onclick="setLayout('pip')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded font-semibold text-center text-slate-200 border border-slate-700">
-                        Modo PiP
-                    </button>
-                    <button onclick="toggleBreaking()" class="p-2 bg-red-900/60 hover:bg-red-800 text-red-200 rounded font-bold text-center border border-red-700">
-                        Última Hora
-                    </button>
+                    <button type="button" onclick="setLayout('default')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded font-semibold text-center text-slate-200 border border-slate-700">Layout Padrão</button>
+                    <button type="button" onclick="setLayout('fullscreen')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded font-semibold text-center text-slate-200 border border-slate-700">Vídeo Cheio</button>
+                    <button type="button" onclick="setLayout('pip')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded font-semibold text-center text-slate-200 border border-slate-700">Modo PiP</button>
+                    <button type="button" onclick="toggleBreaking()" class="p-2 bg-red-900/60 hover:bg-red-800 text-red-200 rounded font-bold text-center border border-red-700">Última Hora</button>
                 </div>
 
-                <!-- Feed Source -->
                 <div>
-                    <label class="block font-bold text-slate-200 mb-1">Fonte da Câmera / Feed de Vídeo</label>
+                    <label for="videoUrlInput" class="block font-bold text-slate-200 mb-1">Fonte da Câmera / Feed de Vídeo</label>
                     <div class="grid grid-cols-3 gap-2 mb-2">
-                        <button onclick="setSimulatedFeed(1, 'ASSEMBLEIA DA REPÚBLICA', 'Palácio de São Bento · Plenário', 'Câmara Principal')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-left">
-                            🏛️ Plenário AR
-                        </button>
-                        <button onclick="setSimulatedFeed(2, 'SALA DE IMPRENSA', 'Conferências de Imprensa · Passos Perdidos', 'Câmara 02')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-left">
-                            🎙️ Imprensa
-                        </button>
-                        <button onclick="setSimulatedFeed(3, 'EXTERIOR DE SÃO BENTO', 'Praça da Constituição · Lisboa', 'Câmara Exterior')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-left">
-                            📍 Exterior
-                        </button>
+                        <button type="button" onclick="setSimulatedFeed(1, 'ASSEMBLEIA DA REPÚBLICA', 'Palácio de São Bento · Plenário', 'Câmara Principal')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-left">🏛️ Plenário AR</button>
+                        <button type="button" onclick="setSimulatedFeed(2, 'SALA DE IMPRENSA', 'Conferências de Imprensa · Passos Perdidos', 'Câmara 02')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-left">🎙️ Imprensa</button>
+                        <button type="button" onclick="setSimulatedFeed(3, 'EXTERIOR DE SÃO BENTO', 'Praça da Constituição · Lisboa', 'Câmara Exterior')" class="p-2 bg-slate-800 hover:bg-slate-700 rounded text-xs font-semibold text-left">📍 Exterior</button>
                     </div>
-                    <label class="block text-[11px] text-slate-400 mb-1">Ou introduza URL de stream externo (MP4 / HLS .m3u8 directo):</label>
-                    <input type="text" id="videoUrlInput" value="https://video-auth1.iol.pt/live_cnn/live_cnn/edge_servers/cnn-720p/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvMjcvMjAyNiAxMjoxNTo1NyBQTSZoYXNoX3ZhbHVlPUZpYVRXRGM3dkV3SjBsR0g1TmgzZHc9PSZ2YWxpZG1pbnV0ZXM9MTQ0MCZpZD0yMDBhMGMwNy0yNjZjLTRmNjctYTdjOS1kYzUwNmEwNWM3NWQ=" placeholder="https://exemplo.pt/stream.m3u8 ou video.mp4" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 focus:outline-none focus:border-brand-red">
+                    <label for="videoUrlInput" class="block text-[11px] text-slate-400 mb-1">URL de stream externo (MP4 / HLS .m3u8):</label>
+                    <input type="text" id="videoUrlInput"
+                        value="https://video-auth1.iol.pt/live_cnn/live_cnn/edge_servers/cnn-720p/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvMjcvMjAyNiAxMjoxNTo1NyBQTSZoYXNoX3ZhbHVlPUZpYVRXRGM3dkV3SjBsR0g1TmgzZHc9PSZ2YWxpZG1pbnV0ZXM9MTQ0MCZpZD0yMDBhMGMwNy0yNjZjLTRmNjctYTdjOS1kYzUwNmEwNWM3NWQ="
+                        placeholder="https://exemplo.pt/stream.m3u8 ou video.mp4"
+                        class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 focus:outline-none focus:border-brand-red">
                 </div>
 
-                <!-- Lower Third Headline Settings -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-200 mb-1">Categoria do Rodapé</label>
+                        <label for="inputCategory" class="block font-bold text-slate-200 mb-1">Categoria do Rodapé</label>
                         <input type="text" id="inputCategory" value="PARLAMENTO" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-200 mb-1">Localização</label>
+                        <label for="inputLocation" class="block font-bold text-slate-200 mb-1">Localização</label>
                         <input type="text" id="inputLocation" value="SÃO BENTO, LISBOA" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-200 mb-1">Título de Destaque (Manchete)</label>
+                    <label for="inputHeadline" class="block font-bold text-slate-200 mb-1">Título de Destaque (Manchete)</label>
                     <input type="text" id="inputHeadline" value="APROVAÇÃO DA AGENDA PARLAMENTAR EM SESSÃO PLENÁRIA" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 font-bold">
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-200 mb-1">Subtexto do Rodapé</label>
+                    <label for="inputSubtext" class="block font-bold text-slate-200 mb-1">Subtexto do Rodapé</label>
                     <textarea id="inputSubtext" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200">Deputados reúnem-se hoje no Palácio de São Bento para debater propostas legislativas e calendarização dos trabalhos.</textarea>
                 </div>
 
-                <!-- Ticker Text Input -->
                 <div>
-                    <label class="block font-bold text-slate-200 mb-1">Texto do Ticker (Separado por •)</label>
+                    <label for="inputTicker" class="block font-bold text-slate-200 mb-1">Texto do Ticker (Separado por •)</label>
                     <textarea id="inputTicker" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200">ASSEMBLEIA DA REPÚBLICA: Debates prosseguem esta tarde em São Bento • ORÇAMENTO DO ESTADO: Propostas em apreciação nas comissões parlamentares • DECLARAÇÕES POLÍTICAS: Grupos apresentam posições</textarea>
                 </div>
-
             </div>
 
-            <!-- Modal Footer Controls -->
             <div class="p-4 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
                 <span class="text-[11px] text-slate-500">Atalhos: [S] Definições | [B] Última Hora | [F] Ecrã Inteiro</span>
                 <div class="flex gap-2">
-                    <button onclick="toggleFullscreen()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-semibold text-xs">
-                        <i class="fa-solid fa-expand mr-1"></i> Ecrã Inteiro
+                    <button type="button" onclick="toggleFullscreen()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-semibold text-xs">
+                        <i class="fa-solid fa-expand mr-1" aria-hidden="true"></i> Ecrã Inteiro
                     </button>
-                    <button onclick="applySettings()" class="px-4 py-1.5 bg-brand-red hover:bg-red-700 text-white rounded font-bold text-xs shadow-lg">
+                    <button type="button" onclick="applySettings()" class="px-4 py-1.5 bg-brand-red hover:bg-red-700 text-white rounded font-bold text-xs shadow-lg">
                         Aplicar Alterações
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- SCRIPT LOGIC -->
     <script>
-        // State variables
-        let isMuted = true;
+        let isMuted = false;   // <-- ÁUDIO ATIVO POR DEFEITO
         let isBreaking = false;
         let currentLayout = 'default';
         let hlsInstance = null;
+        let previouslyFocused = null;
 
-        // Clock Update Function
         function updateClock() {
             const now = new Date();
             const timeStr = new Intl.DateTimeFormat('pt-PT', {
                 timeZone: 'Europe/Lisbon',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
             }).format(now);
-            
             document.getElementById('clockTime').textContent = timeStr;
             document.getElementById('lowerTimestamp').textContent = 'ATUALIZADO ÀS ' + timeStr;
+            let offset = 'UTC';
+            try {
+                const parts = new Intl.DateTimeFormat('pt-PT', {
+                    timeZone: 'Europe/Lisbon', timeZoneName: 'shortOffset'
+                }).formatToParts(now);
+                const tzPart = parts.find(p => p.type === 'timeZoneName');
+                if (tzPart) offset = tzPart.value;
+            } catch (e) {}
+            document.getElementById('clockZone').textContent = `LISBOA (${offset})`;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Settings Modal Toggle
         function toggleSettings() {
             const panel = document.getElementById('settingsPanel');
-            panel.classList.toggle('hidden');
+            if (panel.classList.contains('hidden')) {
+                previouslyFocused = document.activeElement;
+                panel.classList.remove('hidden');
+                const focusable = panel.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (focusable) focusable.focus();
+                document.addEventListener('keydown', trapFocus);
+            } else {
+                panel.classList.add('hidden');
+                document.removeEventListener('keydown', trapFocus);
+                if (previouslyFocused) previouslyFocused.focus();
+            }
         }
 
-        // Apply Control Panel Inputs to Live Overlay
+        function trapFocus(e) {
+            const panel = document.getElementById('settingsPanel');
+            if (e.key === 'Escape') { toggleSettings(); return; }
+            if (e.key !== 'Tab') return;
+            const focusable = panel.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusable.length === 0) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey) {
+                if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+            } else {
+                if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        }
+
+        function updateTicker(text) {
+            const tickerContent = document.getElementById('tickerContent');
+            tickerContent.innerHTML = '';
+            const items = text.split('•').map(s => s.trim()).filter(Boolean);
+            if (items.length === 0) return;
+
+            function createGroup() {
+                const group = document.createElement('span');
+                group.className = 'inline-block';
+                items.forEach(item => {
+                    const dot = document.createElement('span');
+                    dot.className = 'mx-4 text-amber-400';
+                    dot.textContent = '●';
+                    group.appendChild(dot);
+                    const span = document.createElement('span');
+                    span.textContent = item;
+                    group.appendChild(span);
+                });
+                return group;
+            }
+            tickerContent.appendChild(createGroup());
+            tickerContent.appendChild(createGroup());
+        }
+
+        function updateAudioUI() {
+            const btnText = document.getElementById('audioText');
+            const btnIcon = document.getElementById('audioIcon');
+            if (isMuted) {
+                btnText.textContent = 'Áudio Silenciado';
+                btnIcon.className = 'fa-solid fa-volume-xmark text-slate-400';
+            } else {
+                btnText.textContent = 'Áudio Ativo';
+                btnIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+            }
+        }
+
+        function forceUnmute() {
+            isMuted = false;
+            const videoEl = document.getElementById('liveVideo');
+            videoEl.muted = false;
+            videoEl.play().catch(console.warn);
+            updateAudioUI();
+            document.getElementById('unmutePrompt').classList.add('hidden');
+        }
+
         function applySettings(closeModal = true) {
             const videoUrl = document.getElementById('videoUrlInput').value.trim();
             const videoEl = document.getElementById('liveVideo');
             const simEl = document.getElementById('simulatedFeed');
 
-            // Destroy previous HLS player instance if active
-            if (hlsInstance) {
-                hlsInstance.destroy();
-                hlsInstance = null;
-            }
+            if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
 
-            // Video stream vs Simulated screen toggle
             if (videoUrl && /^https?:\/\//.test(videoUrl)) {
-                
-                // If the stream is an HLS .m3u8 format
+                videoEl.muted = false; // garantir áudio ativo
                 if (videoUrl.includes('.m3u8') && Hls.isSupported()) {
-                    hlsInstance = new Hls({
-                        enableWorker: true,
-                        lowLatencyMode: true
-                    });
+                    hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
                     hlsInstance.loadSource(videoUrl);
                     hlsInstance.attachMedia(videoEl);
                     hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                        videoEl.play().catch(e => console.log('Autoplay constraint:', e));
+                        videoEl.play().catch(e => {
+                            console.log('Autoplay constraint:', e);
+                            if (e.name === 'NotAllowedError') {
+                                // Browser bloqueou áudio: mostra prompt para ativar
+                                videoEl.muted = true;
+                                isMuted = true;
+                                updateAudioUI();
+                                videoEl.play().catch(()=>{});
+                                document.getElementById('unmutePrompt').classList.remove('hidden');
+                            }
+                        });
                     });
                     hlsInstance.on(Hls.Events.ERROR, function (event, data) {
                         if (data.fatal) {
                             console.warn('HLS stream error:', data);
+                            videoEl.classList.add('hidden');
+                            simEl.classList.remove('hidden');
+                            document.getElementById('feedStatusText').textContent = 'Sinal perdido · feed alternativo';
+                            if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
                         }
                     });
                 } else if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
-                    // Native Safari HLS support
                     videoEl.src = videoUrl;
                     videoEl.play().catch(() => {});
                 } else {
-                    // Standard Direct MP4 / WebM video
                     videoEl.src = videoUrl;
                     videoEl.play().catch(() => {});
                 }
-
                 videoEl.classList.remove('hidden');
                 simEl.classList.add('hidden');
+            } else {
+                videoEl.pause();
+                videoEl.removeAttribute('src');
+                videoEl.classList.add('hidden');
+                simEl.classList.remove('hidden');
             }
 
-            // Update text elements
             document.getElementById('lowerCategory').textContent = document.getElementById('inputCategory').value.toUpperCase();
             document.getElementById('locationText').textContent = document.getElementById('inputLocation').value.toUpperCase();
             document.getElementById('lowerHeadline').textContent = document.getElementById('inputHeadline').value.toUpperCase();
             document.getElementById('lowerSubtext').textContent = document.getElementById('inputSubtext').value;
 
-            // Update Ticker
-            const tickerRaw = document.getElementById('inputTicker').value;
-            const items = tickerRaw.split('•').map(s => s.trim()).filter(Boolean);
-            if (items.length > 0) {
-                const formattedTicker = items.join(' <span class="mx-4 text-amber-400">●</span> ');
-                // Repeat ticker content to create seamless loop effect
-                document.getElementById('tickerContent').innerHTML = formattedTicker + ' <span class="mx-4 text-amber-400">●</span> ' + formattedTicker;
-            }
+            updateTicker(document.getElementById('inputTicker').value);
+            updateAudioUI();
 
             if (closeModal) {
                 const panel = document.getElementById('settingsPanel');
-                if (!panel.classList.contains('hidden')) {
-                    panel.classList.add('hidden');
-                }
+                if (!panel.classList.contains('hidden')) toggleSettings();
             }
         }
 
-        // Preset Camera Source Selection
         function setSimulatedFeed(type, title, subtitle, statusText) {
             const videoEl = document.getElementById('liveVideo');
             const simEl = document.getElementById('simulatedFeed');
             const iconEl = document.getElementById('feedIcon');
 
-            if (hlsInstance) {
-                hlsInstance.destroy();
-                hlsInstance = null;
-            }
+            if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
 
-            // Clear real video if present
             videoEl.pause();
             videoEl.removeAttribute('src');
             videoEl.classList.add('hidden');
             simEl.classList.remove('hidden');
 
-            // Set Title & Details
             document.getElementById('feedTitle').textContent = title;
             document.getElementById('feedSubtitle').textContent = subtitle;
             document.getElementById('feedStatusText').textContent = statusText;
 
-            // Remove previous feed styles
             simEl.className = 'absolute inset-0 flex flex-col items-center justify-center p-6 text-center transition-all duration-700 ';
 
             if (type === 1) {
@@ -569,25 +516,17 @@
             }
         }
 
-        // Toggle Audio State
         function toggleMute() {
             const videoEl = document.getElementById('liveVideo');
-            const btnText = document.getElementById('audioText');
-            const btnIcon = document.getElementById('audioIcon');
-
             isMuted = !isMuted;
             videoEl.muted = isMuted;
-
-            if (isMuted) {
-                btnText.textContent = 'Áudio Silenciado';
-                btnIcon.className = 'fa-solid fa-volume-xmark text-slate-400';
-            } else {
-                btnText.textContent = 'Áudio Ativo';
-                btnIcon.className = 'fa-solid fa-volume-high text-emerald-400';
+            updateAudioUI();
+            if (!isMuted) {
+                videoEl.play().catch(console.warn);
+                document.getElementById('unmutePrompt').classList.add('hidden');
             }
         }
 
-        // Layout Mode Switcher
         function setLayout(mode) {
             currentLayout = mode;
             const sidebar = document.getElementById('sidebarSection');
@@ -602,23 +541,29 @@
                 sidebar.classList.remove('hidden');
                 videoSec.className = 'col-span-12 lg:col-span-9 relative bg-slate-950 overflow-hidden flex items-center justify-center';
                 pip.classList.remove('hidden');
-            } else { // Default
+            } else {
                 sidebar.classList.remove('hidden');
                 videoSec.className = 'col-span-12 lg:col-span-9 relative bg-slate-950 overflow-hidden flex items-center justify-center';
                 pip.classList.add('hidden');
             }
         }
 
-        // Auto-load stream on window load if provided
-        window.addEventListener('load', () => {
-            const defaultUrlInput = document.getElementById('videoUrlInput');
-            if (defaultUrlInput && defaultUrlInput.value) {
-                // Apply initial settings without opening/toggling modal
-                applySettings(false);
-            }
+        document.getElementById('liveVideo').addEventListener('error', function() {
+            const videoEl = document.getElementById('liveVideo');
+            const simEl = document.getElementById('simulatedFeed');
+            videoEl.classList.add('hidden');
+            simEl.classList.remove('hidden');
+            document.getElementById('feedStatusText').textContent = 'Erro no vídeo · feed alternativo';
         });
 
-        // Toggle Breaking News Mode (Red Alert Banner)
+        window.addEventListener('load', () => {
+            applySettings(false);
+            // Tentativa inicial de desmutar mesmo antes do HLS terminar
+            const videoEl = document.getElementById('liveVideo');
+            videoEl.muted = false;
+            updateAudioUI();
+        });
+
         function toggleBreaking() {
             isBreaking = !isBreaking;
             const banner = document.getElementById('breakingBanner');
@@ -636,29 +581,23 @@
             }
         }
 
-        // Toggle Native Fullscreen Mode
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(() => {});
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+                if (document.exitFullscreen) document.exitFullscreen();
             }
         }
 
-        // Keyboard Shortcuts Listener
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            const panel = document.getElementById('settingsPanel');
+            if (!panel.classList.contains('hidden') && e.key !== 'Escape') return;
 
             const key = e.key.toLowerCase();
-            if (key === 's') {
-                toggleSettings();
-            } else if (key === 'b') {
-                toggleBreaking();
-            } else if (key === 'f') {
-                toggleFullscreen();
-            }
+            if (key === 's') toggleSettings();
+            else if (key === 'b') toggleBreaking();
+            else if (key === 'f') toggleFullscreen();
         });
     </script>
 </body>
