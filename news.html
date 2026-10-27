@@ -453,7 +453,7 @@
         }
 
         // Apply Control Panel Inputs to Live Overlay
-        function applySettings() {
+        function applySettings(closeModal = true) {
             const videoUrl = document.getElementById('videoUrlInput').value.trim();
             const videoEl = document.getElementById('liveVideo');
             const simEl = document.getElementById('simulatedFeed');
@@ -512,7 +512,12 @@
                 document.getElementById('tickerContent').innerHTML = formattedTicker + ' <span class="mx-4 text-amber-400">●</span> ' + formattedTicker;
             }
 
-            toggleSettings();
+            if (closeModal) {
+                const panel = document.getElementById('settingsPanel');
+                if (!panel.classList.contains('hidden')) {
+                    panel.classList.add('hidden');
+                }
+            }
         }
 
         // Preset Camera Source Selection
@@ -596,7 +601,8 @@
         window.addEventListener('load', () => {
             const defaultUrlInput = document.getElementById('videoUrlInput');
             if (defaultUrlInput && defaultUrlInput.value) {
-                applySettings();
+                // Apply initial settings without opening/toggling modal
+                applySettings(false);
             }
         });
 
