@@ -51,15 +51,15 @@
         }
     </script>
     <style>
-        /* Oculta a barra de rolagem mantendo a rolagem funcional */
-        #sidebarContent::-webkit-scrollbar,
-        .overflow-y-auto::-webkit-scrollbar {
-            display: none;
+        /* Ocultar barra de rolagem GLOBALMENTE */
+        * {
+            -ms-overflow-style: none !important;  /* IE and Edge */
+            scrollbar-width: none !important;     /* Firefox */
         }
-        #sidebarContent,
-        .overflow-y-auto {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;     /* Firefox */
+        *::-webkit-scrollbar {
+            display: none !important;             /* Chrome, Safari and Opera */
+            width: 0 !important;
+            height: 0 !important;
         }
 
         /* Efeitos de vidro (glassmorphism) */
